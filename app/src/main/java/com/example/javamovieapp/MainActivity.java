@@ -21,6 +21,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import com.example.javamovieapp.ui.AppStrings;
+import com.example.javamovieapp.controller.MovieSearchController;
+
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,43 +49,22 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://www.omdbapi.com/")
+                .baseUrl(AppStrings.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         movieApi = retrofit.create(MovieApi.class);
 
+        MovieSearchController controller = new MovieSearchController(movieApi, adapter, this);
+
         searchButton.setOnClickListener(v -> {
             String query = searchEditText.getText().toString().trim();
             if (!query.isEmpty()) {
-                searchMovies(query);
+                controller.searchMovies(query);
+            } else {
+                Toast.makeText(this, AppStrings.ERROR_NO_QUERY, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void searchMovies(String query) {
-        Call<MovieSearchResponse> call = movieApi.searchMovies(query, "62e795df");
-
-        call.enqueue(new Callback<MovieSearchResponse>() {
-            @Override
-            public void onResponse(Call<MovieSearchResponse> call, Response<MovieSearchResponse> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    List<Movie> movies = response.body().getSearch();
-
-                    if (movies != null && !movies.isEmpty()) {
-                        adapter.updateData(movies);
-                    } else {
-                        Toast.makeText(MainActivity.this, "Geen resultaten", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(MainActivity.this, "Geen resultaten", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MovieSearchResponse> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "Fout: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 }

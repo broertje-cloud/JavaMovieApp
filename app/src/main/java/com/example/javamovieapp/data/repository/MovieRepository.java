@@ -12,6 +12,12 @@ import retrofit2.Response;
 
 import java.util.List;
 
+/**
+ * Deze repository wordt momenteel niet gebruikt,
+ * maar is voorbereid voor toekomstige uitbreidingen
+ * wanneer de applicatie groter wordt.
+ */
+
 public class MovieRepository {
 
     private static final String BASE_URL = "https://www.omdbapi.com/";

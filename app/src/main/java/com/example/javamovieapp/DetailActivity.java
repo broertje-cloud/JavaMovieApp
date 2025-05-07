@@ -17,6 +17,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import com.example.javamovieapp.ui.AppStrings;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -42,15 +43,16 @@ public class DetailActivity extends AppCompatActivity {
         if (imdbID != null) {
             fetchMovieDetail(imdbID);
         } else {
-            Toast.makeText(this, "Geen film-ID ontvangen", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, AppStrings.ERROR_NO_IMDB_ID, Toast.LENGTH_SHORT).show();
         }
     }
 
     private void fetchMovieDetail(String imdbID) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://www.omdbapi.com/")
+                .baseUrl(AppStrings.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
+
 
         MovieApi api = retrofit.create(MovieApi.class);
 
@@ -68,14 +70,15 @@ public class DetailActivity extends AppCompatActivity {
                             .load(detail.getPoster())
                             .into(posterImageView);
                 } else {
-                    Toast.makeText(DetailActivity.this, "Geen detaildata gevonden", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DetailActivity.this, AppStrings.ERROR_NO_DETAILS_FOUND, Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<MovieDetail> call, Throwable t) {
-                Toast.makeText(DetailActivity.this, "Fout bij laden: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(DetailActivity.this, AppStrings.ERROR_DETAIL_LOAD_FAILED + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
+
         });
     }
 }
