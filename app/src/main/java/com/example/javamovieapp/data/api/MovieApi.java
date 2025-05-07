@@ -1,5 +1,6 @@
 package com.example.javamovieapp.data.api;
 
+import com.example.javamovieapp.data.model.MovieDetail;
 import com.example.javamovieapp.data.model.MovieSearchResponse;
 
 import retrofit2.Call;
@@ -12,4 +13,12 @@ public interface MovieApi {
             @Query("s") String query,
             @Query("apikey") String apiKey
     );
+
+    @GET("/")
+    Call<MovieDetail> getMovieDetail(
+            @Query("i") String imdbID,
+            @Query("apikey") String apiKey
+    );
+
+
 }

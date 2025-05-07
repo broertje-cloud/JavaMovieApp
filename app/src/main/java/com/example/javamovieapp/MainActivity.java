@@ -67,7 +67,12 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<MovieSearchResponse> call, Response<MovieSearchResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     List<Movie> movies = response.body().getSearch();
-                    adapter.updateData(movies);
+
+                    if (movies != null && !movies.isEmpty()) {
+                        adapter.updateData(movies);
+                    } else {
+                        Toast.makeText(MainActivity.this, "Geen resultaten", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     Toast.makeText(MainActivity.this, "Geen resultaten", Toast.LENGTH_SHORT).show();
                 }

@@ -1,5 +1,6 @@
 package com.example.javamovieapp.ui.main;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.example.javamovieapp.data.model.Movie;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.example.javamovieapp.DetailActivity;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 
@@ -39,11 +41,19 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         holder.titleTextView.setText(movie.getTitle());
         holder.yearTextView.setText(movie.getYear());
 
-        Glide.with(holder.posterImageView.getContext())
+        Glide.with(holder.itemView.getContext())
                 .load(movie.getPoster())
-                .placeholder(R.drawable.ic_launcher_background)
                 .into(holder.posterImageView);
+
+        // Klikactie met imdbID
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), DetailActivity.class);
+            intent.putExtra(DetailActivity.EXTRA_IMDB_ID, movie.getImdbID());
+            v.getContext().startActivity(intent);
+        });
     }
+
+
 
     @Override
     public int getItemCount() {
