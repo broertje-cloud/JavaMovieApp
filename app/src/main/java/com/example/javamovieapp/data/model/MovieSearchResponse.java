@@ -19,11 +19,4 @@ public class MovieSearchResponse {
         return search;
     }
 
-    public String getTotalResults() {
-        return totalResults;
-    }
-
-    public String getResponse() {
-        return response;
-    }
 }

@@ -45,7 +45,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
                 .load(movie.getPoster())
                 .into(holder.posterImageView);
 
-        // Klikactie met imdbID
+
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(v.getContext(), DetailActivity.class);
             intent.putExtra(DetailActivity.EXTRA_IMDB_ID, movie.getImdbID());

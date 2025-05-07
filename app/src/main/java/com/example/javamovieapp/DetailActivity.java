@@ -1,6 +1,5 @@
 package com.example.javamovieapp;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
