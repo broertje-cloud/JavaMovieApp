@@ -20,6 +20,7 @@ import com.example.javamovieapp.DetailActivity;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 
+    // List of movies currently shown in the RecyclerView
     private List<Movie> movieList = new ArrayList<>();
 
     public void updateData(List<Movie> movies) {
@@ -41,11 +42,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         holder.titleTextView.setText(movie.getTitle());
         holder.yearTextView.setText(movie.getYear());
 
+        // Load the poster image using Glide
         Glide.with(holder.itemView.getContext())
                 .load(movie.getPoster())
                 .into(holder.posterImageView);
 
-
+        // Handle item click to open the DetailActivity
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(v.getContext(), DetailActivity.class);
             intent.putExtra(DetailActivity.EXTRA_IMDB_ID, movie.getImdbID());

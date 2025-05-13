@@ -21,12 +21,15 @@ import com.example.javamovieapp.controller.MovieSearchController;
 
 
 public class MainActivity extends AppCompatActivity {
-
+    // UI elements
     private EditText searchEditText;
     private Button searchButton;
     private RecyclerView recyclerView;
+
+    // Adapter for displaying search results
     private MovieAdapter adapter;
 
+    // Retrofit API interface
     private MovieApi movieApi;
 
     @Override
@@ -34,27 +37,33 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Initialize UI components
         searchEditText = findViewById(R.id.searchEditText);
         searchButton = findViewById(R.id.searchButton);
         recyclerView = findViewById(R.id.recyclerView);
 
+        // Setup RecyclerView with layout and adapter
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new MovieAdapter();
         recyclerView.setAdapter(adapter);
 
+        // Initialize Retrofit for network communication
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(AppStrings.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl(AppStrings.BASE_URL)// Base URL for the OMDb API
+                .addConverterFactory(GsonConverterFactory.create())// Use Gson for JSON parsing
                 .build();
 
+        // Create API interface
         movieApi = retrofit.create(MovieApi.class);
 
+        // Setup controller to handle search logic
         MovieSearchController controller = new MovieSearchController(movieApi, adapter, this);
 
+        // Set listener for the search button
         searchButton.setOnClickListener(v -> {
             String query = searchEditText.getText().toString().trim();
             if (!query.isEmpty()) {
-                controller.searchMovies(query);
+                controller.searchMovies(query);// Perform search
             } else {
                 Toast.makeText(this, AppStrings.ERROR_NO_QUERY, Toast.LENGTH_SHORT).show();
             }
